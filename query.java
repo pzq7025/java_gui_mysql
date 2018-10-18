@@ -28,12 +28,12 @@ public class query extends JFrame {
     void init(){
         // 进行Box的布局  后面可以尝试一下 grid的布局方式
         setLayout(new FlowLayout());
-        Id_Label = new JLabel("Please entry id:");
-        PassWord_Label = new JLabel("Please entry password:");
+        Id_Label = new JLabel("Please entry Id:");
+        PassWord_Label = new JLabel("Please entry Password:");
         Id_Text = new JTextField(20);
         PW_Text = new JPasswordField(20);
-        Sure_Button = new JButton("Sure");
-        Cancel_Button = new JButton("Cancel");
+        Sure_Button = new JButton("Confirm");
+        Cancel_Button = new JButton("Back");
 
 
         qb = new query_db();
@@ -77,10 +77,12 @@ public class query extends JFrame {
 
 
         // 将监听的值传入对应的参数中间 实现对事件的响应操作
+        qb.Jframe_(this);
         qb.Sure_Button(Sure_Button);
         qb.Cancel_Button(Cancel_Button);
         qb.Get_Id(Id_Text);
         qb.Get_PW(PW_Text);
+//        qb.Exit(this.dispose());
 
 
         setBounds(200, 200, 400, 300);
@@ -88,4 +90,6 @@ public class query extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("QUERY");
     }
+
+    private JFrame qry;
 }

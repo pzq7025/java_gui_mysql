@@ -56,8 +56,8 @@ public class change_password extends JFrame{
         New_Password_Text = new JPasswordField(20);                     // 新密码的文本框
         Sure_New_Text = new JPasswordField(20)   ;                      // 确认新密码的文本框
         Id_Text = new JTextField(20);                                   // 获取Id的文本框
-        sure_Button = new JButton("sure");
-        cancel_Button = new JButton("cancel");
+        sure_Button = new JButton("Confirm");
+        cancel_Button = new JButton("Back");
 
 
         regist = new change_pw_db();
@@ -106,6 +106,7 @@ public class change_password extends JFrame{
 
 
 //        regist.setaccountField(save_Money_Text);
+        regist.set_Jframe(this);
 
         regist.set_id_Field(Id_Text);
         regist.set_pre_Field(Pre_Password_Text);

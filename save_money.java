@@ -26,14 +26,14 @@ public class save_money extends JFrame {
     void init(){
         setLayout(new FlowLayout());
         // 建立对应的标签对象 实现功能
-        Id_Label = new JLabel("please Save Id");
-        Pw_Label = new JLabel("please password");
+        Id_Label = new JLabel("please enter Id");
+        Pw_Label = new JLabel("please enter password");
         Input_Label = new JLabel("please save cash");
         Id_Text = new JTextField(20);
         Pw_Text = new JPasswordField(20);
         Input_Text = new JTextField(20);
-        Ok_Button = new JButton("Sure");
-        Cancel_Button = new JButton("Cancel");
+        Ok_Button = new JButton("Confirm");
+        Cancel_Button = new JButton("Back");
 
 
         // 建立数据库对象
@@ -88,6 +88,11 @@ public class save_money extends JFrame {
 
 
         // 进行参数的传递
+        /**
+         * 传入子引用的this就可以关闭这个窗口
+         * 这就是继承的好处
+         */
+        smd.Set_JFrame(this);
         smd.Set_Id_Text(Id_Text);
         smd.Set_Pw_Text(Pw_Text);
         smd.Set_Input_Text(Input_Text);

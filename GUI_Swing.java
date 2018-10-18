@@ -13,15 +13,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class GUI_Swing implements ActionListener {
-    JButton Change_Pass, Save_Money, WithDrawal_Money, Exit, Query, Print;
+    JButton Change_Pass, Save_Money, WithDrawal_Money, Exit, Query, Logoff, Last;
     /**
      * 建立对应的文本对象
      * 方便在函数中进行对象的实例化和引用
      */
+    JFrame gui;          // 建立gui界面的JFrame来关闭窗口
     change_password cp;
     query q;
     save_money sm;
     withdrawal_money wm;
+    logoff lo;
+    login lg;
 
 
 
@@ -56,8 +59,20 @@ public class GUI_Swing implements ActionListener {
     
     
     //打印的Button
-    public void Print_Button(JButton b1){
-        Print = b1;
+    public void Logoff_Button(JButton b1){
+        Logoff = b1;
+    }
+
+
+    //获取上面的gui界面
+    public void Last_Button(JButton b1) {
+        Last = b1;
+    }
+
+
+    //获取退出的JFrame
+    public void Set_JFrame(JFrame j1){
+        gui = j1;
     }
 
     
@@ -75,20 +90,30 @@ public class GUI_Swing implements ActionListener {
         if(e.getSource() == Change_Pass){
             JOptionPane.showMessageDialog(null, "Will enter Change_Password Interface..........");
             cp = new change_password();
+            gui.dispose();
         } else if (e.getSource() == Save_Money) {
             JOptionPane.showMessageDialog(null, "Will enter Save_Money Interface.........");
             sm = new save_money();
+            gui.dispose();
         } else if(e.getSource() == WithDrawal_Money){
-            JOptionPane.showMessageDialog(null, "Will enter Withdrawal_Money Interface.....");
+            JOptionPane.showMessageDialog(null, "Will enter Withdrawal Money Interface.....");
             wm = new withdrawal_money();
-        } else if(e.getSource() ==Query){
+            gui.dispose();
+        } else if(e.getSource() == Query){
             JOptionPane.showMessageDialog(null, "will enter the Query Interface........");
             q = new query();
-        } else if(e.getSource() ==Print){
-
+            gui.dispose();
+        } else if(e.getSource() == Logoff){
+            JOptionPane.showMessageDialog(null, "Will enter Logoff Interface.......");
+            lo = new logoff();
+            gui.dispose();
         } else if(e.getSource() == Exit){
             JOptionPane.showMessageDialog(null,"The Application will exit........");
             System.exit(0);
+        } else if(e.getSource() == Last){
+            JOptionPane.showMessageDialog(null, "Will Backing................");
+            lg = new login();
+            gui.dispose();
         }
 
     }

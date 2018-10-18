@@ -23,7 +23,7 @@ import javax.swing.*;
 
 public class register extends JFrame{
     JLabel PassWord_Label, Name_Label;
-    JButton okButton, resetButton;
+    JButton okButton, BackButton;
     JTextField PassWord_Text, Name_Text;
     Box baseBox1, baseBox2, box1, box2, box3;
 
@@ -42,8 +42,8 @@ public class register extends JFrame{
         Name_Label = new JLabel("name");
         PassWord_Text = new JPasswordField(10);
         Name_Text = new JTextField(20);
-        okButton = new JButton("sure");
-        resetButton = new JButton("reset");
+        okButton = new JButton("Confirm");
+        BackButton = new JButton("Back");
 
 
         regist = new register_db();
@@ -67,7 +67,7 @@ public class register extends JFrame{
         box3 = Box.createHorizontalBox();
         box3.add(okButton);
         box3.add(Box.createVerticalStrut(15));
-        box3.add(resetButton);
+        box3.add(BackButton);
 
 
         baseBox1 = Box.createHorizontalBox();
@@ -85,14 +85,15 @@ public class register extends JFrame{
 
         // 建立监听的设置  目前还只能夸一个函数  后期在做修改
         okButton.addActionListener(regist);
-        resetButton.addActionListener(regist);
+        BackButton.addActionListener(regist);
 
 
         // 通过监听 调用对应的函数 传入对应的参数  实现相应的功能
+        regist.Set_Jframe(this);
         regist.Set_Na_Field(Name_Text);
         regist.Set_Pw_Field(PassWord_Text);
         regist.setokButton(okButton);
-        regist.setresetButton(resetButton);
+        regist.setresetButton(BackButton);
 
 
         setBounds(200, 200, 500, 300);

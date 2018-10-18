@@ -19,6 +19,7 @@ import javax.swing.*;
 public class login_db extends conn_db implements ActionListener{
     JTextField accT, nameT;
     JButton okB, registB;
+    JFrame lo;
     register re;
     ResultSet rs;
 //    tool t1;
@@ -41,6 +42,11 @@ public class login_db extends conn_db implements ActionListener{
     }
 
 
+    public void set_JFrame(JFrame j1){
+        lo = j1;
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == okB){
@@ -57,15 +63,18 @@ public class login_db extends conn_db implements ActionListener{
                     connection();
                     boolean com = compareWithSql(accountT, namesT);
                     if (com){
+                        JOptionPane.showMessageDialog(null, "Logining.............");
                         JOptionPane.showMessageDialog(null, "enter is successful!");
                         /**在这里显示登录后的界面  在这里调用时间函数
                          *所有的接口先放在了GUI这个java文件中
                          */
                         // 通过GUI的类来实现其他的功能
                         Gui = new GUI();
+                        lo.dispose();  // 控制Login登录的界面
 //                        rt = new save_cust();
                     }
                     else {
+                        JOptionPane.showMessageDialog(null, "Logining...................");
                         JOptionPane.showMessageDialog(null, "the error! id is error or pwd is wrong");
                         accT.setText("");
                         nameT.setText("");
@@ -76,7 +85,8 @@ public class login_db extends conn_db implements ActionListener{
             }
 
         }else if(e.getSource() == registB){
-            new JFrame().dispose();
+            JOptionPane.showMessageDialog(null, "Will inter the register interface..........");
+            lo.dispose();
             re = new register();
             /**
              * 这个地方就是函数接口

@@ -32,8 +32,8 @@ public class withdrawal_money extends JFrame {
         Id_Text = new JTextField(20);
         Pw_Text = new JPasswordField(20);
         Output_Text = new JTextField(20);
-        Ok_Button = new JButton("Sure");
-        Cancel_Button = new JButton("Cancel");
+        Ok_Button = new JButton("Confirm");
+        Cancel_Button = new JButton("Back");
 
 
         // 实例化数据库对象
@@ -88,6 +88,7 @@ public class withdrawal_money extends JFrame {
 
 
         // 将获取的输入的内容 对数据库进行响应  完成参数的传递
+        wd.Set_JFrame(this);
         wd.Set_User_Id(Id_Text);
         wd.Set_User_Pw(Pw_Text);
         wd.Set_User_Output(Output_Text);

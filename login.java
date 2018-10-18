@@ -34,8 +34,8 @@ public class login extends JFrame{
         // 建立JTextField的对象标签
         accountT = new JTextField(10);
         PasswordT = new JPasswordField(20);
-        okB = new JButton("login");                 //登录
-        registB = new JButton("register");          //新建
+        okB = new JButton("Login");                 //登录
+        registB = new JButton("Register");          //新建
 
 
         box1 = Box.createVerticalBox();
@@ -89,6 +89,7 @@ public class login extends JFrame{
          * 调用接口
          * 调用login_db这个类中间的函数
          */
+        log.set_JFrame(this);  // 传入一个参数来控制这个组件
         log.setaccount(accountT);
         log.setNameT(PasswordT);
         log.setButton(okB, registB);
@@ -101,7 +102,7 @@ public class login extends JFrame{
         setLayout(new FlowLayout());
         setBounds(200, 150, 500, 300);
         setVisible(true);
-        setTitle("custom login UI");
+        setTitle("Custom Login UI");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 

@@ -25,6 +25,8 @@ public class save_money_db extends conn_db implements ActionListener {
     JButton Ok_Button, Cancel_Button;
     Statement stmt;
     ResultSet rs;
+    JFrame sm;
+    GUI gui;
 
 
     // 接收Id_Text的内容
@@ -53,6 +55,12 @@ public class save_money_db extends conn_db implements ActionListener {
     }
 
 
+    // 设置JFrame的响应
+    public void Set_JFrame(JFrame j1){
+        sm = j1;
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         // 对输入信息是否为空进行判断
@@ -76,9 +84,11 @@ public class save_money_db extends conn_db implements ActionListener {
                         charge(id, pw, cash);
                     boolean com = charge(id, pw, cash);
                     if(com){
+                        JOptionPane.showMessageDialog(null, "Charging.............");
                         JOptionPane.showMessageDialog(null, "Charge is successful.......");
                         Input_Text.setText("");
                     } else {
+                        JOptionPane.showMessageDialog(null, "Charging...............");
                         JOptionPane.showMessageDialog(null, "Charge is fail!\n" + "Please check info....");
                         Id_Text.setText("");
                         Pw_Text.setText("");
@@ -105,6 +115,8 @@ public class save_money_db extends conn_db implements ActionListener {
             Input_Text.setText("");
             Id_Text.setText("");
             Pw_Text.setText("");
+            sm.dispose();
+            gui = new GUI();    // 强对象建立
         }
 
     }
@@ -124,10 +136,11 @@ public class save_money_db extends conn_db implements ActionListener {
         rs = stmt.executeQuery(sql);
 
         // 判断获取的内容是否有效
+        // 必须要有rs.next() 才可以rs.getString()  这样获取的内容才能有效
         if(rs.next()){
             double money = rs.getDouble(1);
             double total = money + cash;
-            sql1 = "UPDATE my set money =" +  total + ",data=now() WHERE id =" + id + " AND password = '" + pw + "'";
+            sql1 = "UPDATE my set money =" +  total + ",data=now() WHERE id =" + id + " AND password = '" + pw + "'" + " AND statue=1";
             int rw = stmt.executeUpdate(sql1);
             if(rw <= 0){
 //                JOptionPane.showMessageDialog(null, "Info is wrong\n Please check again...");

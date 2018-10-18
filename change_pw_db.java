@@ -18,8 +18,10 @@ public class change_pw_db extends conn_db implements ActionListener {
     JTextField Pre_Password, New_Password, Sure_Password;
     JTextField Id;
     JButton okButton, resetButton, sureButton;
+    JFrame cp;
     Statement stmt;
     ResultSet rs;
+    GUI gui;
 
     //    JPanel pInput = new JPanel();
     // 获取原始id
@@ -41,6 +43,11 @@ public class change_pw_db extends conn_db implements ActionListener {
     // 确认新密码
     public void set_sure_Field(JTextField s) {
         Sure_Password = s;
+    }
+
+
+    public void set_Jframe(JFrame j1) {
+        cp = j1;
     }
 
 
@@ -136,6 +143,8 @@ public class change_pw_db extends conn_db implements ActionListener {
             Pre_Password.setText("");
             New_Password.setText("");
             Sure_Password.setText("");
+            cp.dispose();
+            gui = new GUI();
         }
 
     }
@@ -157,7 +166,7 @@ public class change_pw_db extends conn_db implements ActionListener {
         Statement stmt = con.createStatement();
 
         // 查询密码对客户信息进行一个判断
-        sql1 = "SELECT password FROM  my WHERE id='" + acc + "'";
+        sql1 = "SELECT password FROM  my WHERE id='" + acc + "'" + " AND statue=1";
 ////        sql = "SELECT id FROM my WHERE name='" + name +"' AND  password='"+acc+"'";
 //
 ////        int rw = stmt.executeUpdate(sql);
@@ -187,7 +196,7 @@ public class change_pw_db extends conn_db implements ActionListener {
                 } else {
 //            rs.next();
                     // 输入密码和原密码不相同  修改数据库中的原始密码
-                    sql = "update my set password= '" + new_p + "',data=now() where id=" + acc;
+                    sql = "update my set password= '" + new_p + "',data=now() where id=" + acc + " AND statue=1";
 //            int rw = stmt.executeUpdate(sql.toString());
                     // 此处使用的是excuteUpdate的语句  该语句必须是一个int类型  详细参考fromat
                     int rw = stmt.executeUpdate(sql);
@@ -207,12 +216,14 @@ public class change_pw_db extends conn_db implements ActionListener {
 
                 }
             } else {
+                JOptionPane.showMessageDialog(null, "Changing Password.........");
                 JOptionPane.showMessageDialog(null, "please check pre_word!");
                 // 后期还需要修改  不完全清空 跟具提示清空
 //                return false;
                 Pre_Password.setText("");
             }
         } else {
+            JOptionPane.showMessageDialog(null, "Changing Password................");
             JOptionPane.showMessageDialog(null, "user info is error!\n please check user info!");
             Pre_Password.setText("");
             Sure_Password.setText("");

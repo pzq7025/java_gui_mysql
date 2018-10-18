@@ -7,6 +7,7 @@ package signer;
  * 由register这个类来调用
  */
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.JarURLConnection;
@@ -19,8 +20,12 @@ import javax.swing.*;
 public class register_db extends conn_db implements ActionListener{
     JTextField Text_Na, Text_Pw;
     JButton okButton, resetButton;
+    JFrame rd; //接收传入register的框架模式
     Statement stmt;
     ResultSet rs;
+    login ld;
+
+//    register rt;
 
 
     // 获取PassWord的内容
@@ -44,6 +49,11 @@ public class register_db extends conn_db implements ActionListener{
     // 重置按钮的响应
     public void setresetButton(JButton b2){
         resetButton = b2;
+    }
+
+
+    public  void Set_Jframe(JFrame j1){
+        rd = j1;
     }
 
 
@@ -77,6 +87,9 @@ public class register_db extends conn_db implements ActionListener{
         else if(e.getSource() == resetButton){
             Text_Pw.setText("");
             Text_Na.setText("");
+            JOptionPane.showMessageDialog(null, "Willing Back..............");
+            rd.dispose();
+            ld = new login();
         }
     }
 
@@ -94,8 +107,8 @@ public class register_db extends conn_db implements ActionListener{
 
         System.out.println("create table is successful!");
 
-        sql = "insert into my(password,name,data) values ('"+pw+"','"+name+"',now())";
-        sql1 = "SELECT id FROM my WHERE name='" + name +"' AND  password='"+pw+"'"+"ORDER BY id DESC";
+        sql = "insert into my(password,name,data,statue) values ('"+pw+"','"+name+"',now(),1)";
+        sql1 = "SELECT id FROM my WHERE name='" + name + "' AND  password='" + pw + "'" + " AND statue=1 " + " ORDER BY id DESC";
 //        sql1 = "SELECT id FROM my WHERE name='" + name +"' AND  password='"+acc+"'";
 //        String whereClause = "";
 //        whereClause += " sex = '" + forSQL(acc) + "' ";
@@ -103,11 +116,13 @@ public class register_db extends conn_db implements ActionListener{
         int rw = stmt.executeUpdate(sql);
         rs = stmt.executeQuery(sql1);
         if(rw<=0 ){
+            JOptionPane.showMessageDialog(null, "Creating...........");
             JOptionPane.showMessageDialog(null, "register is fail!");
         }
         else{
             rs.next();
 //            rs = stmt.executeQuery(sql1);
+            JOptionPane.showMessageDialog(null, "Creating..........");
             JOptionPane.showMessageDialog(null, "register is successful!\n"+ "your id is " + rs.getString(1));
 
         }

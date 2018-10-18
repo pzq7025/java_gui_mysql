@@ -9,6 +9,7 @@ package signer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.desktop.OpenURIEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -20,6 +21,8 @@ public class withdrawal_db extends conn_db implements ActionListener {
     JButton Ok_Button, Cancel_Button;
     Statement stmt;
     ResultSet rs;
+    JFrame wm;
+    GUI gui;
 
 
     // 获取用户的id
@@ -45,6 +48,12 @@ public class withdrawal_db extends conn_db implements ActionListener {
     // 获取Cancel_Button的响应
     public void Set_Cancel_Button(JButton cancel) {
         Cancel_Button = cancel;
+    }
+
+
+    // 获取JFrame的响应
+    public void Set_JFrame(JFrame j1){
+        wm = j1;
     }
 
 
@@ -96,6 +105,8 @@ public class withdrawal_db extends conn_db implements ActionListener {
             Id_Text.setText("");
             Pw_Text.setText("");
             Output_Text.setText("");
+            wm.dispose();
+            gui = new GUI();
         }
 
 
@@ -119,21 +130,25 @@ public class withdrawal_db extends conn_db implements ActionListener {
             double money = rs.getDouble(1);
             if(money > cash){
                 double remain = money - cash;
-                sql1 = "UPDATE my set money =" +  remain + ",data=now() WHERE id =" + id + " AND password = '" + pw + "'";
+                sql1 = "UPDATE my set money =" +  remain + ",data=now() WHERE id =" + id + " AND password = '" + pw + "'" + " AND statue=1";
                 int rw = stmt.executeUpdate(sql1);
                 if(rw <= 0){
+                    JOptionPane.showMessageDialog(null, "Withdrawaling..........");
                     JOptionPane.showMessageDialog(null, "Please check your info!\n Please again");
                     return false;
                 } else {
+                    JOptionPane.showMessageDialog(null, "Withdrawaling.............");
                     JOptionPane.showMessageDialog(null, "It's Successful!");
                     return true;
                 }
             } else {
+                JOptionPane.showMessageDialog(null, "Withdrawaling.............");
                 JOptionPane.showMessageDialog(null, "Insufficient Balance\n Please again Cash....");
                 return false;
             }
 
         } else {
+            JOptionPane.showMessageDialog(null, "Withdrawaling.............");
             JOptionPane.showMessageDialog(null, "Please check your info1\n Please again......");
             return false;
         }

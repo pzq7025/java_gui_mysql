@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.net.JarURLConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,6 +21,9 @@ public class query_db extends conn_db implements ActionListener{
     JButton okButton, cancelButton;
     Statement stmt;
     ResultSet rs;
+    JFrame qr;
+    GUI gui;
+
 
 
     public void Sure_Button(JButton b1){
@@ -40,6 +44,16 @@ public class query_db extends conn_db implements ActionListener{
     public void Get_PW(JTextField pw){
         Text_PassWord = pw;
     }
+
+
+    public void Jframe_(JFrame j1){
+        qr = j1;
+    }
+
+
+//    public void Exit(int Ex) {
+//        Ex;
+//    }
 
 
 //    public void Get_User_id(JTextField id){
@@ -88,6 +102,13 @@ public class query_db extends conn_db implements ActionListener{
             JOptionPane.showMessageDialog(null,"The Interface Will Exit..........");
                 Text_Id.setText("");
                 Text_PassWord.setText("");
+                // 优化的地方
+            /**
+             * 通过传入JFrame的对象  来完成窗口的关闭工作
+             */
+            qr.dispose();
+//                qr.dispose();
+            gui = new GUI();
         }
     }
 
@@ -100,7 +121,7 @@ public class query_db extends conn_db implements ActionListener{
         Statement stmt = con.createStatement();
 
 
-        sql = "SELECT money,password FROM my WHERE id=" + id + " AND password='" + pw + "'";
+        sql = "SELECT money,password FROM my WHERE id=" + id + " AND password='" + pw + "'" + " AND statue=1";
         rs = stmt.executeQuery(sql);
         // 这里判断用户信息是否正确  只有在正确的情况下才可以  获取到用户的信息  做一个异常的处理判断
         if(rs.next()){
