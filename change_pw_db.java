@@ -12,6 +12,7 @@ import java.net.JarURLConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.print.attribute.standard.JobOriginatingUserName;
 import javax.swing.*;
 
 public class change_pw_db extends conn_db implements ActionListener {
@@ -89,27 +90,32 @@ public class change_pw_db extends conn_db implements ActionListener {
             } else if (Sure_Password.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please Entry Sure_Password", "WARNING", JOptionPane.WARNING_MESSAGE);
             } else if (New_Password.getText().equals(Sure_Password.getText())) {
+                // 这样写可以更快的进入db中
                 String acc = Id.getText();
-//                String save = User_Pw.getText();
                 String pre = Pre_Password.getText();
                 String new_p = New_Password.getText();
                 String sure = Sure_Password.getText();
+                // 判断是否确认修改密码
+                // 0 为确认 2为取消
+                int jd = JOptionPane.showConfirmDialog(null, "Do you want change password", "Tip", JOptionPane.OK_CANCEL_OPTION);
+                if(jd == 0) {
+//                String save = User_Pw.getText();
 //            Integer.parseInt(text_save);
-                try {
-                    // 连接数据库
-                    //                    String sql1;
-                    connection();
-                    // 判断输入的密码和原始密码是否一致一致才能做修改
-                    //                    Connection con = super.con;
-                    //                    Statement stmt = con.createStatement();
+                    try {
+                        // 连接数据库
+                        //                    String sql1;
+                        connection();
+                        // 判断输入的密码和原始密码是否一致一致才能做修改
+                        //                    Connection con = super.con;
+                        //                    Statement stmt = con.createStatement();
 
-                    //                    sql1 = "SELECT password FROM  my WHERE id='" + acc + "'";
+                        //                    sql1 = "SELECT password FROM  my WHERE id='" + acc + "'";
 
-                    //                    stmt.executeQuery(sql1);
-                    //                    boolean judge = Judge()
-                    //                    if(rs.getString(1).equals(pre)){
-                    // 创建一个com的boolean函数
-                    SaveSql(acc, pre, new_p);
+                        //                    stmt.executeQuery(sql1);
+                        //                    boolean judge = Judge()
+                        //                    if(rs.getString(1).equals(pre)){
+                        // 创建一个com的boolean函数
+                        SaveSql(acc, pre, new_p);
 //                    boolean com = SaveSql(acc, pre, new_p);
 //                    if (com) {
 //                        JOptionPane.showMessageDialog(null, "Change is successful!");
@@ -126,27 +132,34 @@ public class change_pw_db extends conn_db implements ActionListener {
 //                        New_Password.setText("");
 //                        Sure_Password.setText("");
 //                    }
-                } catch (Exception e1) {
+                        // 用catch捕捉try产生的错误
+                    } catch (Exception e1) {
 //                    JOptionPane.showMessageDialog(null, "Save is fail!");
-                    e1.printStackTrace();
-                }
+                        e1.printStackTrace();
+                        }
+                    // 这个是确认修改密码提示框的括号
+                    }
                 // 这个else是新密码和确认新密码不一致所报的错误
-            } else {
-                JOptionPane.showMessageDialog(null, "please the new_password and sure_password is same........");
-                Sure_Password.setText("");
-                New_Password.setText("");
-            }
+                } else {
+                    JOptionPane.showMessageDialog(null, "please the new_password and sure_password is same........");
+                    Sure_Password.setText("");
+                    New_Password.setText("");
+                }
             // 这个else if 是点击resetButton造成的响应
         } else if (e.getSource() == resetButton) {
-            JOptionPane.showMessageDialog(null, "The Windows Will Exit..........");
-            Id.setText("");
-            Pre_Password.setText("");
-            New_Password.setText("");
-            Sure_Password.setText("");
-            cp.dispose();
-            gui = new GUI();
+            int ju = JOptionPane.showConfirmDialog(null, "Do you want to Back", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if (ju == 0) {
+                JOptionPane.showMessageDialog(null, "The Windows Will Exit..........");
+                Id.setText("");
+                Pre_Password.setText("");
+                New_Password.setText("");
+                Sure_Password.setText("");
+                // 关闭窗口change_pw的窗口界面
+                cp.dispose();
+                // 建立新的GUI界面
+                gui = new GUI();
+            }
         }
-
     }
 
     // 调用这个Boolean的函数

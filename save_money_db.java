@@ -76,47 +76,60 @@ public class save_money_db extends conn_db implements ActionListener {
                 String id = Id_Text.getText();
                 String pw = Pw_Text.getText();
                 double cash = Double.parseDouble(Input_Text.getText());
-                // 还有一个输入字母的bug
-                if(cash >= 0) {
-                    try {
-                        connection();
-                        // 设置Boolean来确定值是否可以使用
-                        charge(id, pw, cash);
-                    boolean com = charge(id, pw, cash);
-                    if(com){
-                        JOptionPane.showMessageDialog(null, "Charging.............");
-                        JOptionPane.showMessageDialog(null, "Charge is successful.......");
-                        Input_Text.setText("");
+                // 先获取字段内容
+                // 判断是否继续进行存钱的操作
+                // 0继续  2取消
+                int ju = JOptionPane.showConfirmDialog(null, "Do you want to save money", "Tip", JOptionPane.OK_CANCEL_OPTION);
+                if(ju == 0) {
+                    // 还有一个输入字母的bug
+                    if (cash >= 0) {
+                        try {
+                            connection();
+                            // 设置Boolean来确定值是否可以使用
+                            charge(id, pw, cash);
+                            boolean com = charge(id, pw, cash);
+                            if (com) {
+                                JOptionPane.showMessageDialog(null, "Charging.............");
+                                JOptionPane.showMessageDialog(null, "Charge is successful.......");
+                                Input_Text.setText("");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Charging...............");
+                                JOptionPane.showMessageDialog(null, "Charge is fail!\n" + "Please check info....");
+                                Id_Text.setText("");
+                                Pw_Text.setText("");
+                            }
+
+                            // 异常的捕捉
+                        } catch (Exception e1) {
+                            JOptionPane.showMessageDialog(null, "Recharge failed!\n Please again.....");
+                            Id_Text.setText("");
+                            Pw_Text.setText("");
+                            Input_Text.setText("");
+                            e1.printStackTrace();
+                        }
+                        // 判断金额大于0之后的else
                     } else {
-                        JOptionPane.showMessageDialog(null, "Charging...............");
-                        JOptionPane.showMessageDialog(null, "Charge is fail!\n" + "Please check info....");
-                        Id_Text.setText("");
-                        Pw_Text.setText("");
-                    }
-
-                        // 异常的捕捉
-                    } catch (Exception e1) {
-                    JOptionPane.showMessageDialog(null, "Recharge failed!\n Please again.....");
-                        Id_Text.setText("");
-                        Pw_Text.setText("");
+                        JOptionPane.showMessageDialog(null, "Please again Cash......");
                         Input_Text.setText("");
-                        e1.printStackTrace();
                     }
-                } else{
-                    JOptionPane.showMessageDialog(null, "Please again Cash......");
-                    Input_Text.setText("");
+                // 这个是ju判断的括号  判断是否继续进行操作
                 }
-            // 这个是else的括号
+            // 这个是else的括号 判断字段不为空之后的一个条件语句
             }
-
-        } else if(e.getSource()== Cancel_Button){
+        //  else if 是判断Cancel_Button按钮的
+        } else if(e.getSource()== Cancel_Button) {
             // 这里需要改进 后期再来做优化
-            JOptionPane.showMessageDialog(null, "The Interface Will Exit............");
-            Input_Text.setText("");
-            Id_Text.setText("");
-            Pw_Text.setText("");
-            sm.dispose();
-            gui = new GUI();    // 强对象建立
+            int ju = JOptionPane.showConfirmDialog(null, "Do you want to Back", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if (ju == 0) {
+                JOptionPane.showMessageDialog(null, "The Interface Will Exit............");
+                Input_Text.setText("");
+                Id_Text.setText("");
+                Pw_Text.setText("");
+                // 关闭当前窗口
+                sm.dispose();
+                // 建立新的GUI界面
+                gui = new GUI();    // 强对象建立
+            }
         }
 
     }
@@ -129,9 +142,12 @@ public class save_money_db extends conn_db implements ActionListener {
         // 刷新数据库中的金额
         String sql1;
 
+        // 建立连接的对象
         Connection con = super.con;
+        // 建立执行SQL语句的游标
         Statement stmt = con.createStatement();
 
+        // 执行SQL语句
         sql = "SELECT money FROM my WHERE id=" + id + " AND password='" + pw + "'";
         rs = stmt.executeQuery(sql);
 
@@ -155,7 +171,5 @@ public class save_money_db extends conn_db implements ActionListener {
         }
 
     }
-
-
     // 这是整个主类的括号
 }

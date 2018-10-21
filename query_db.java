@@ -76,39 +76,53 @@ public class query_db extends conn_db implements ActionListener{
             } else {
                 String id = Text_Id.getText();
                 String pw = Text_PassWord.getText();
-                try {
-                    connection();
-                    boolean QS = QuerySql(id, pw);
-                    if(QS){
+                // 先获取字段在进行判断
+                // 用ju判断是否继续进行查询
+                // 0确定 2取消
+                int ju = JOptionPane.showConfirmDialog(null, "Do you want to Query the id information", "Tip", JOptionPane.OK_CANCEL_OPTION);
+                if (ju == 0) {
+                    try {
+                        connection();
+                        boolean QS = QuerySql(id, pw);
+                        if (QS) {
 //                        JOptionPane.showMessageDialog(null, "Query is successful!");
-                        Text_PassWord.setText("");
-                        Text_Id.setText("");
-                    } else {
+                            Text_PassWord.setText("");
+                            Text_Id.setText("");
+                        } else {
 //                        JOptionPane.showMessageDialog(null, "Query is fail!\n" + "please again!");
+                            Text_Id.setText("");
+                            Text_PassWord.setText("");
+                        }
+                        // 用catch捕捉try产生的错误
+                    } catch (Exception e1) {
+//                    JOptionPane.showMessageDialog(null,"query is fail!\n please again!");
                         Text_Id.setText("");
                         Text_PassWord.setText("");
+                        e1.printStackTrace();
                     }
-
-                } catch (Exception e1) {
-//                    JOptionPane.showMessageDialog(null,"query is fail!\n please again!");
-                    Text_Id.setText("");
-                    Text_PassWord.setText("");
-                    e1.printStackTrace();
+                // 这是判断是否继续的括号  ju的括号
                 }
+                // 判断字段不为空后的else的括号
             }
+        // else if 是cancel按钮的一个判断
         } else if(e.getSource() == cancelButton) {
 //            int disposeOnClose = JFrame.DISPOSE_ON_CLOSE;
 //            System.exit(disposeOnClose);
-            JOptionPane.showMessageDialog(null,"The Interface Will Exit..........");
+            int ju = JOptionPane.showConfirmDialog(null, "Do you want to Back", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if (ju == 0) {
+                JOptionPane.showMessageDialog(null, "The Interface Will Exit..........");
                 Text_Id.setText("");
                 Text_PassWord.setText("");
                 // 优化的地方
-            /**
-             * 通过传入JFrame的对象  来完成窗口的关闭工作
-             */
-            qr.dispose();
+                /**
+                 * 通过传入JFrame的对象  来完成窗口的关闭工作
+                 */
+                // 关闭当前的界面窗口
+                qr.dispose();
 //                qr.dispose();
-            gui = new GUI();
+                // 建立新的GUI界面窗口
+                gui = new GUI();
+            }
         }
     }
 
@@ -117,7 +131,9 @@ public class query_db extends conn_db implements ActionListener{
         String sql;
 
 
+        // 建立连接对象
         Connection con = super.con;
+        // 建立SQL的游标对象
         Statement stmt = con.createStatement();
 
 

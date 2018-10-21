@@ -22,7 +22,6 @@ public class login_db extends conn_db implements ActionListener{
     JFrame lo;
     register re;
     ResultSet rs;
-//    tool t1;
 //    save_cust rt;
     GUI Gui;
 
@@ -65,7 +64,7 @@ public class login_db extends conn_db implements ActionListener{
                     if (com){
                         JOptionPane.showMessageDialog(null, "Logining.............");
                         JOptionPane.showMessageDialog(null, "enter is successful!");
-                        /**在这里显示登录后的界面  在这里调用时间函数
+                        /**在这里显示登录后的界面
                          *所有的接口先放在了GUI这个java文件中
                          */
                         // 通过GUI的类来实现其他的功能
@@ -79,15 +78,22 @@ public class login_db extends conn_db implements ActionListener{
                         accT.setText("");
                         nameT.setText("");
                     }
+                // 用catch捕捉try产生的错误
+                // try的括号
                 } catch (Exception e1){
                     e1.printStackTrace();
                 }
+            // 判断完非空后的else的括号
             }
-
         }else if(e.getSource() == registB){
-            JOptionPane.showMessageDialog(null, "Will inter the register interface..........");
-            lo.dispose();
-            re = new register();
+            int ju = JOptionPane.showConfirmDialog(null, "Do you want to enter Register Interface", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if(ju == 0) {
+                JOptionPane.showMessageDialog(null, "Will inter the register interface..........");
+                // 关闭当前的界面
+                lo.dispose();
+                // 建立新的GUI界面窗口
+                re = new register();
+            }
             /**
              * 这个地方就是函数接口
              * 通过这个就可以调用其他的类
@@ -100,9 +106,12 @@ public class login_db extends conn_db implements ActionListener{
 
     boolean compareWithSql(String accountT, String namesT) throws Exception{
         String sql;
+        // 建立新的连接
         Connection con = super.con;
+        // 建立SQL执行语句的游标
         Statement stmt = con.createStatement();
-        sql = "select id,password from my ";
+        sql = "select id,password from my WHERE statue = 1";
+        // 执行Result结果的游标
         rs = stmt.executeQuery(sql);
         while (rs.next()){
             String acc = rs.getString(1);

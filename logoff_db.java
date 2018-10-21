@@ -56,35 +56,49 @@ public class logoff_db extends conn_db implements ActionListener {
             } else if (Pw_Text.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please enter password", "WARNING", JOptionPane.WARNING_MESSAGE);
             } else {
+                // JOption的sure为0  cancel为2
+                // JOption的Yes为0   NO为1
+                // 确认是否注销用户的判断
                 String id = Id_Text.getText();
                 String pw = Pw_Text.getText();
-                try {
-                    connection();
-                    boolean Ls = Logoff_Sql(id, pw);
-                    if(Ls){
-                        JOptionPane.showMessageDialog(null, "Successful!");
-                        Id_Text.setText("");
-                        Pw_Text.setText("");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Logoff is fail! Please check information!");
+                int ju = JOptionPane.showConfirmDialog(null, "Are your want to Logon", "Warning", JOptionPane.OK_CANCEL_OPTION);
+                if (ju == 0) {
+                    try {
+                        connection();
+                        boolean Ls = Logoff_Sql(id, pw);
+                        // 数据库操作的判断
+                        if (Ls) {
+                            JOptionPane.showMessageDialog(null, "Successful!");
+                            Id_Text.setText("");
+                            Pw_Text.setText("");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Logoff is fail! Please check information!");
+                            Id_Text.setText("");
+                            Pw_Text.setText("");
+                        }
+                    // try的判断 用catch捕捉错误
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "The information is error! please again.......");
                         Id_Text.setText("");
                         Pw_Text.setText("");
                     }
-
-                } catch (Exception e1){
-                    e1.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "The information is error! please again.......");
-                    Id_Text.setText("");
-                    Pw_Text.setText("");
+                // 这个是JOptionPane.showConfirmDialog的括号
                 }
+            // 这个是else的括号,showJOptionDialog的
             }
 
         } else if(e.getSource()==Cancel_Button) {
-            JOptionPane.showMessageDialog(null, "The interface will Exit......");
-            Id_Text.setText("");
-            Pw_Text.setText("");
-            lg.dispose();
-            gui = new GUI();
+            int ju = JOptionPane.showConfirmDialog(null, "Do you want to Back", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if (ju == 0) {
+                JOptionPane.showMessageDialog(null, "The interface will Exit......");
+                Id_Text.setText("");
+                Pw_Text.setText("");
+                // 关闭当前窗口
+                lg.dispose();
+                // 创建新GUI界面的窗口
+                gui = new GUI();
+            }
         }
 
     }
@@ -95,10 +109,13 @@ public class logoff_db extends conn_db implements ActionListener {
         String sql1;
 
 
+        // 建立连接的对象
         Connection con = super.con;
+        // 执行语句游标的建立
         Statement stmt = con.createStatement();
 
 
+        // SQL语句的书写
         sql = "SELECT password FROM my WHERE id=" + id + " AND password='" + pw + "'" + " AND statue=1";
         rs = stmt.executeQuery(sql);
         /**

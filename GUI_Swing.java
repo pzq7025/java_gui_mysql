@@ -87,33 +87,58 @@ public class GUI_Swing implements ActionListener {
          * 目前还不会  switch的转化  所以采取else if 的语句来实现这个功能的调用
          * 更具不同的响应  调用不同的函数  这里就是函数响应的接口
          */
+        // 先关闭后建立  这样看起来就不会出现父级窗口
+        // 0代表是  2 代表不是
         if(e.getSource() == Change_Pass){
-            JOptionPane.showMessageDialog(null, "Will enter Change_Password Interface..........");
-            cp = new change_password();
-            gui.dispose();
+            int ju = JOptionPane.showConfirmDialog(null, "Do your want to enter the Change password interface", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if(ju == 0) {
+                JOptionPane.showMessageDialog(null, "Will enter Change Password Interface..........");
+                gui.dispose();
+                cp = new change_password();
+            }
         } else if (e.getSource() == Save_Money) {
-            JOptionPane.showMessageDialog(null, "Will enter Save_Money Interface.........");
-            sm = new save_money();
-            gui.dispose();
+            int ju = JOptionPane.showConfirmDialog(null, "Do your want to enter the save Money Interface", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if(ju == 0) {
+                JOptionPane.showMessageDialog(null, "Will enter Save Money Interface.........");
+                gui.dispose();
+                sm = new save_money();
+            }
         } else if(e.getSource() == WithDrawal_Money){
-            JOptionPane.showMessageDialog(null, "Will enter Withdrawal Money Interface.....");
-            wm = new withdrawal_money();
-            gui.dispose();
+            int ju = JOptionPane.showConfirmDialog(null, "Do your want to enter the Withdrawal Money interface", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if(ju == 0) {
+                JOptionPane.showMessageDialog(null, "Will enter Withdrawal Money Interface.....");
+                gui.dispose();
+                wm = new withdrawal_money();
+            }
         } else if(e.getSource() == Query){
-            JOptionPane.showMessageDialog(null, "will enter the Query Interface........");
-            q = new query();
-            gui.dispose();
+            int ju = JOptionPane.showConfirmDialog(null, "Do your want to enter the Query interface", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if(ju == 0) {
+                JOptionPane.showMessageDialog(null, "will enter the Query Interface........");
+                gui.dispose();
+                q = new query();
+            }
         } else if(e.getSource() == Logoff){
-            JOptionPane.showMessageDialog(null, "Will enter Logoff Interface.......");
-            lo = new logoff();
-            gui.dispose();
+            int ju = JOptionPane.showConfirmDialog(null, "Do your want to enter the Logoff interface", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if(ju == 0) {
+                JOptionPane.showMessageDialog(null, "Will enter Logoff Interface.......");
+                gui.dispose();
+                lo = new logoff();
+            }
         } else if(e.getSource() == Exit){
-            JOptionPane.showMessageDialog(null,"The Application will exit........");
-            System.exit(0);
-        } else if(e.getSource() == Last){
-            JOptionPane.showMessageDialog(null, "Will Backing................");
-            lg = new login();
-            gui.dispose();
+            // ju判断是否退出系统
+            int ju = JOptionPane.showConfirmDialog(null, "Do your want to Exit The System", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if(ju == 0) {
+                JOptionPane.showMessageDialog(null, "The Application will exit........");
+                System.exit(0);
+            }
+        } else if(e.getSource() == Last) {
+            // 判断是否返回界面
+            int ju = JOptionPane.showConfirmDialog(null, "Do your want to Back The Login interface", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if (ju == 0) {
+                JOptionPane.showMessageDialog(null, "Will Backing................");
+                gui.dispose();
+                lg = new login();
+            }
         }
 
     }

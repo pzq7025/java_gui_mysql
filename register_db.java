@@ -68,28 +68,42 @@ public class register_db extends conn_db implements ActionListener{
             }
             else if (Text_Pw.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "please entry password!", "WARNING", JOptionPane.WARNING_MESSAGE);
-            }
-            else{
+            } else {
                 String pw = Text_Pw.getText();
                 String name = Text_Na.getText();
-                try {
-                    connection();
-                    writeSql(pw, name);
-                    Text_Na.setText("");
-                    Text_Pw.setText("");
-                } catch (Exception e1){
-                    Text_Pw.setText("");
-                    Text_Na.setText("");
-                    e1.printStackTrace();
+                // 先获取字段在 判断是够继续建立用户
+                // 判断是否继续继续创建用户
+                // 0建立 2 不建立
+                int ju = JOptionPane.showConfirmDialog(null, "Do you want to create the user", "Tip", JOptionPane.OK_CANCEL_OPTION);
+                if (ju == 0) {
+                    try {
+                        connection();
+                        writeSql(pw, name);
+                        Text_Na.setText("");
+                        Text_Pw.setText("");
+                    // 用catch捕捉try产生的错误
+                    } catch (Exception e1) {
+                        Text_Pw.setText("");
+                        Text_Na.setText("");
+                        e1.printStackTrace();
+                    }
+                // 这是判断是否继续的ju的括号
                 }
+            // 判断字段不为空之后的else的括号
             }
+        // okButton的括号
         }
-        else if(e.getSource() == resetButton){
-            Text_Pw.setText("");
-            Text_Na.setText("");
-            JOptionPane.showMessageDialog(null, "Willing Back..............");
-            rd.dispose();
-            ld = new login();
+        else if(e.getSource() == resetButton) {
+            int ju = JOptionPane.showConfirmDialog(null, "Do you want to Back", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if (ju == 0) {
+                Text_Pw.setText("");
+                Text_Na.setText("");
+                JOptionPane.showMessageDialog(null, "Willing Back..............");
+                // 关闭当前的界面窗口
+                rd.dispose();
+                // 建立新的GUI的界面
+                ld = new login();
+            }
         }
     }
 
@@ -98,7 +112,9 @@ public class register_db extends conn_db implements ActionListener{
         String sql;
         String sql1;
 
+        // 建立数据库的连接对象
         Connection con = super.con;
+        // 建立执行SQL语句的游标
         Statement stmt = con.createStatement();
 
         sql = "create table if not exists my(account varchar(10),name varchar(20))";

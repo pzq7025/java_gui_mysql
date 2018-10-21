@@ -72,41 +72,54 @@ public class withdrawal_db extends conn_db implements ActionListener {
                 String id = Id_Text.getText();
                 String pw = Pw_Text.getText();
                 double cash = Double.parseDouble(Output_Text.getText());
-                if (cash >= 0) {
-                    try {
-                        // 连接数据库
-                        connection();
-                        boolean com = withdrawal(id, pw, cash);
-                        if (com) {
-                            // 正确了就将取款金额重置
-                            Output_Text.setText("");
-                        } else {
-                            // 错误了 重置不可见的密码
+                // 先获取字段内容
+                // 在进行是否要取钱操作
+                // 0代表继续 2代表取消
+                int ju = JOptionPane.showConfirmDialog(null, "Do you want to withdraw money", "Tip", JOptionPane.OK_CANCEL_OPTION);
+                if (ju == 0) {
+                    if (cash >= 0) {
+                        try {
+                            // 连接数据库
+                            connection();
+                            boolean com = withdrawal(id, pw, cash);
+                            if (com) {
+                                // 正确了就将取款金额重置
+                                Output_Text.setText("");
+                            } else {
+                                // 错误了 重置不可见的密码
 //                            Output_Text.setText("");
-                            Pw_Text.setText("");
+                                Pw_Text.setText("");
+                                Id_Text.setText("");
+                            }
+                            // 进行错误的捕捉 错误的捕捉在Boolean函数中会提示这里只完成重置的功能
+                        } catch (Exception e1) {
                             Id_Text.setText("");
+                            Pw_Text.setText("");
+                            Output_Text.setText("");
+                            e1.printStackTrace();
                         }
-                        // 进行错误的捕捉 错误的捕捉在Boolean函数中会提示这里只完成重置的功能
-                    } catch (Exception e1) {
-                        Id_Text.setText("");
-                        Pw_Text.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Please again cash....");
                         Output_Text.setText("");
-                        e1.printStackTrace();
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Please again cash....");
-                    Output_Text.setText("");
+                // 这是判断确认继续withdraw money的括号
                 }
+            // 这是判断字段不为空的括号
             }
-
-        } else if(e.getSource() == Cancel_Button){
+        // 这个是Cancel_Button的else if
+        } else if(e.getSource() == Cancel_Button) {
             // 后期还需要做一定的改进
-            JOptionPane.showMessageDialog(null, "The interface will Exit.......");
-            Id_Text.setText("");
-            Pw_Text.setText("");
-            Output_Text.setText("");
-            wm.dispose();
-            gui = new GUI();
+            int ju = JOptionPane.showConfirmDialog(null, "Do you want to Back", "Tip", JOptionPane.OK_CANCEL_OPTION);
+            if (ju == 0) {
+                JOptionPane.showMessageDialog(null, "The interface will Exit.......");
+                Id_Text.setText("");
+                Pw_Text.setText("");
+                Output_Text.setText("");
+                // 先关闭窗口
+                wm.dispose();
+                // 建立新的GUI界面
+                gui = new GUI();
+            }
         }
 
 
@@ -120,9 +133,12 @@ public class withdrawal_db extends conn_db implements ActionListener {
         String sql1;
 
 
+        // 建立新的数据库的连接对象
         Connection con = super.con;
+        // 建立新的执行SQL语句的游标对象
         Statement stmt = con.createStatement();
 
+        // 执行SQL语句
         sql = "SELECT money FROM my WHERE id=" + id + " AND password='" + pw + "'";
         rs = stmt.executeQuery(sql);
         // 判断获取的内容是否有效
