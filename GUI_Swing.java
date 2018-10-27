@@ -129,6 +129,7 @@ public class GUI_Swing implements ActionListener {
             int ju = JOptionPane.showConfirmDialog(null, "Do your want to Exit The System", "Tip", JOptionPane.OK_CANCEL_OPTION);
             if(ju == 0) {
                 JOptionPane.showMessageDialog(null, "The Application will exit........");
+                gui.dispose();
                 System.exit(0);
             }
         } else if(e.getSource() == Last) {

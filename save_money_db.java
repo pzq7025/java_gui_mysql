@@ -11,9 +11,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.io.*;
 
 /**设置监听  监听save_money传来的参数
  * 通过public void actionPerformed来监听响应
@@ -42,6 +45,20 @@ public class save_money_db extends conn_db implements ActionListener {
     // 接收Input的内容
     public void Set_Input_Text(JTextField input){
         Input_Text = input;
+        // 注册键盘事件监听器
+        Input_Text.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char key = e.getKeyChar();
+                if(!(key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9)){
+                    int su = JOptionPane.showConfirmDialog(null, "Please enter number", "WARNING", JOptionPane.OK_CANCEL_OPTION);
+                    if(su == 0){
+                        Input_Text.setText("");
+                    }
+                    e.consume();
+                }
+            }
+        });
     }
 
     // 设置Ok的响应
@@ -79,8 +96,14 @@ public class save_money_db extends conn_db implements ActionListener {
                 // 先获取字段内容
                 // 判断是否继续进行存钱的操作
                 // 0继续  2取消
+//                try {
                 int ju = JOptionPane.showConfirmDialog(null, "Do you want to save money", "Tip", JOptionPane.OK_CANCEL_OPTION);
-                if(ju == 0) {
+                if (ju == 0) {
+//                    if(cash.Class){
+//                        JOptionPane.showMessageDialog(null, "please Inter", "WARNING", JOptionPane.WARNING_MESSAGE);
+//                        Input_Text.setText("");
+//                    // 判断cash是否是数字
+//                    } else {
                     // 还有一个输入字母的bug
                     if (cash >= 0) {
                         try {
@@ -109,15 +132,24 @@ public class save_money_db extends conn_db implements ActionListener {
                         }
                         // 判断金额大于0之后的else
                     } else {
-                        JOptionPane.showMessageDialog(null, "Please again Cash......");
+                        JOptionPane.showMessageDialog(null, "Cash enter is error! Please again Cash......");
                         Input_Text.setText("");
                     }
-                // 这个是ju判断的括号  判断是否继续进行操作
+                    // 判断Input不是字符后 继续执行的括号
+//                    }
+                    // 这个是ju判断的括号  判断是否继续进行操作
                 }
+//                } catch (NumberFormatException e1){
+//                    System.out.println("klkjlk");
+//                    e1.getStackTrace();
+//                    e1.getCause();
+//                    throw new IOException();
+//                throw new
+//                }
             // 这个是else的括号 判断字段不为空之后的一个条件语句
             }
         //  else if 是判断Cancel_Button按钮的
-        } else if(e.getSource()== Cancel_Button) {
+        } else if(e.getSource() == Cancel_Button) {
             // 这里需要改进 后期再来做优化
             int ju = JOptionPane.showConfirmDialog(null, "Do you want to Back", "Tip", JOptionPane.OK_CANCEL_OPTION);
             if (ju == 0) {
@@ -158,7 +190,7 @@ public class save_money_db extends conn_db implements ActionListener {
             double total = money + cash;
             sql1 = "UPDATE my set money =" +  total + ",data=now() WHERE id =" + id + " AND password = '" + pw + "'" + " AND statue=1";
             int rw = stmt.executeUpdate(sql1);
-            if(rw <= 0){
+            if (rw <= 0){
 //                JOptionPane.showMessageDialog(null, "Info is wrong\n Please check again...");
                 return false;
             } else {

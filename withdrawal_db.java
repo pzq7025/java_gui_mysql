@@ -10,8 +10,7 @@ package signer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.desktop.OpenURIEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -38,6 +37,22 @@ public class withdrawal_db extends conn_db implements ActionListener {
     // 取款的金额
     public void Set_User_Output(JTextField op){
         Output_Text = op;
+        // 注册监听键盘事件监听器
+        Output_Text.addKeyListener(new KeyAdapter() {
+            // 处理键盘事件
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char key = e.getKeyChar();
+                if(!(key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9)){
+                    int su = JOptionPane.showConfirmDialog(null, "please enter Number", "WARNING",JOptionPane.OK_CANCEL_OPTION);
+                    if (su == 0){
+
+                        Output_Text.setText("");
+                    }
+                    e.consume();
+                }
+            }
+        });
     }
 
     // 获取Ok_Button的响应
@@ -170,8 +185,5 @@ public class withdrawal_db extends conn_db implements ActionListener {
         }
         // 这个是Boolean函数的括号
     }
-
-
-
     // 这个是withdrawal_db的括号
 }

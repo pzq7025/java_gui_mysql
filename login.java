@@ -89,6 +89,16 @@ public class login extends JFrame{
          * 调用接口
          * 调用login_db这个类中间的函数
          */
+
+
+
+
+        /**
+         * 在这里将内容传给对应的数据库函数 就可以操作完成一次性输入 直接使用
+           这种方式可以一劳永逸  避免了频繁输入账号信息
+            缺陷是不能操作其他的账号信息
+         */
+
         log.set_JFrame(this);  // 传入一个参数来控制这个组件
         log.setaccount(accountT);
         log.setNameT(PasswordT);

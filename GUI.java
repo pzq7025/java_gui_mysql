@@ -18,6 +18,9 @@ public class GUI extends JFrame {
     JButton Change_Pass, Save_Money, WithDraw_Money, Exit, Query, Logoff, Next, Last;
     Box box1, box2, box3, box4, base1;
     GUI_Swing gui;
+    // 创建一个layeredPane用于分层
+    JLayeredPane layeredPane;
+    // 创建一个Pane和一个Label用于存放图片  作为背景
 
 
     GUI(){
@@ -28,15 +31,24 @@ public class GUI extends JFrame {
     void init(){
         setLayout(new FlowLayout());
         // 建立对应的标签对象
-        Change_Pass = new JButton("Change Password");                         // 修改密码
-        Save_Money = new JButton("      Save   Money    ");                   // 存钱
-        WithDraw_Money = new JButton("Withdraw Money");                       // 取钱
-        Exit = new JButton("      Exit  System   ");                          // 退出
-        Query = new JButton("   Query   Money  ");                            // 查询
-        Logoff = new JButton("     Logoff  User    ");                        // 注销用户
-        Last = new JButton("    Back    Login    ");                          // 返回上一层
-        Next = new JButton("     Next    Menu   ");                           // 下一层
+        Change_Pass = new JButton("改密");                        // 修改密码
+        Save_Money = new JButton("存钱");                         // 存钱
+        WithDraw_Money = new JButton("取钱");                     // 取钱
+        Exit = new JButton("退出");                               // 退出
+        Query = new JButton("查询");                              // 查询
+        Logoff = new JButton("注销");                             // 注销用户
+        Last = new JButton("返回");                               // 返回上一层
+        Next = new JButton("继续");                               // 下一层
 
+        // 设置一下窗口的大小
+        Change_Pass.setPreferredSize(new Dimension(85, 25));
+        Save_Money.setPreferredSize(new Dimension(85, 25));
+        WithDraw_Money.setPreferredSize(new Dimension(85, 25));
+        Exit.setPreferredSize(new Dimension(85, 25));
+        Query.setPreferredSize(new Dimension(85, 25));
+        Logoff.setPreferredSize(new Dimension(85, 25));
+        Last.setPreferredSize(new Dimension(85, 25));
+        Next.setPreferredSize(new Dimension(85,25));
 
 
         // 建立Component的对象
@@ -68,9 +80,9 @@ public class GUI extends JFrame {
         box2.add(Next);
 
         base1 = Box.createHorizontalBox();
-        base1.add(Box.createHorizontalStrut(50));
+        base1.add(Box.createHorizontalStrut(75));
         base1.add(box1);
-        base1.add(Box.createHorizontalStrut(100));
+        base1.add(Box.createHorizontalStrut(75));
         base1.add(box2);
 
 
@@ -126,10 +138,11 @@ public class GUI extends JFrame {
         Query.addActionListener(gui);
         Logoff.addActionListener(gui);
         Last.addActionListener(gui);
+        add(base1);//这个是最后的一个表现形式
         
 
 //        addComponentListener(Change_Pass,);
-//        icon = new ImageIcon(GUI.class.getResource("123.png"));
+//        icon = new ImageIcon(GUI.class.getResource("123.jpg"));
 //        img = icon.getImage();
 
 
@@ -143,17 +156,28 @@ public class GUI extends JFrame {
         gui.Last_Button(Last);
         gui.Set_JFrame(this);
 
-        
 
-
-
-        add(base1);//这个是最后的一个表现形式
+        // 处理背景
+//        jl = new JLabel(image);
+////        layeredPane = new JLayeredPane();
+////        image = new ImageIcon("123.jpg");
+////        jp = new JPanel();
+////
+////
+////        layeredPane.add(jp, JLayeredPane.DEFAULT_LAYER);
+//        layeredPane.add(base1, JLayeredPane.MODAL_LAYER);
+//
+//
+//
+//
+//        setLayeredPane(layeredPane);
+//        setSize(image.getIconWidth(), image.getIconHeight());
+//        setLocation(image.getIconHeight(), image.getIconHeight());
         setBounds(200, 200, 500, 400);
         getContentPane().setBackground(Color.gray);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("MENU");
-
 
     }
 
