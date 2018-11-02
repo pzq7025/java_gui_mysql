@@ -19,7 +19,7 @@ public class GUI extends JFrame {
     Box box1, box2, box3, box4, base1;
     GUI_Swing gui;
     // 创建一个layeredPane用于分层
-    JLayeredPane layeredPane;
+//    JLayeredPane layeredPane;
     // 创建一个Pane和一个Label用于存放图片  作为背景
 
 
@@ -129,6 +129,24 @@ public class GUI extends JFrame {
 //        base1.add(Box.createVerticalStrut(40));
 
 
+
+
+
+        // 开始添加面板里面的内容
+        // 不能设置成null  设置成null之后没有内容了
+//        jp.setLayout(null);
+//        jp.add(base1);
+//        jp.add(Change_Pass);
+//        jp.add(Save_Money);
+//        jp.add(WithDraw_Money);
+//        jp.add(Exit);
+//        jp.add(Query);
+//        jp.add(Logoff);
+//        jp.add(Last);
+//        jp.add(Next);
+
+
+        // 前面已经添加了 jp的内容这里不需要在添加jp的内容
         add(base1);
         //建立时间的监听关系实现类之间的调用
         Change_Pass.addActionListener(gui);
@@ -138,7 +156,7 @@ public class GUI extends JFrame {
         Query.addActionListener(gui);
         Logoff.addActionListener(gui);
         Last.addActionListener(gui);
-        add(base1);//这个是最后的一个表现形式
+//        add(base1);//这个是最后的一个表现形式
         
 
 //        addComponentListener(Change_Pass,);
@@ -173,6 +191,25 @@ public class GUI extends JFrame {
 //        setLayeredPane(layeredPane);
 //        setSize(image.getIconWidth(), image.getIconHeight());
 //        setLocation(image.getIconHeight(), image.getIconHeight());
+
+        // 建立java的图像界面  background放在了label中
+        // 文件的路径
+        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time6.jpg");
+        JLabel logolabel = new JLabel(image);
+
+        logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
+
+
+        // 设置底层把图片放在最下面的一层
+        getLayeredPane().add(logolabel,new Integer(Integer.MIN_VALUE));
+
+        //设置内容面板  getContentPane前面添加  这个JFrame的对象 由于这个图片是继承了JFrame  所以不需要对象 或者使用this
+        JPanel jp = (JPanel) this.getContentPane();
+
+        //设置内容面板未透明  true代表透明  透明之后的gui界面是看不到背景图像的
+        jp.setOpaque(false);
+
+
         setBounds(200, 200, 500, 400);
         getContentPane().setBackground(Color.gray);
         setVisible(true);

@@ -100,6 +100,23 @@ public class save_money extends JFrame {
         smd.Set_Cancel_Button(Cancel_Button);
 
 
+
+        // 建立java的图像界面  background放在了label中
+        // 这个是图片的路径  在这里修改图片的路径  就可以修改背景的图片
+        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time15.jpg");
+        JLabel logolabel = new JLabel(image);
+
+        logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
+
+        // 设置底层把图片放在最下面的一层
+        getLayeredPane().add(logolabel,new Integer(Integer.MIN_VALUE));
+
+        //设置内容面板  getContentPane前面添加  这个JFrame的对象 由于这个图片是继承了JFrame  所以不需要对象 或者使用this
+        JPanel jp = (JPanel) this.getContentPane();
+
+        //设置内容面板未透明  true是透明
+        jp.setOpaque(false);
+
         // 设置窗口的大小以及窗口的位置
         setBounds(200, 200, 400, 300);
         setVisible(true);

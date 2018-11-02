@@ -44,8 +44,6 @@ public class change_password extends JFrame{
     }
 
 
-
-
     void init(){
         setLayout(new FlowLayout());
         Id_Label = new JLabel("please Id");                                 // id的标签
@@ -101,6 +99,9 @@ public class change_password extends JFrame{
         baseBox2.add(box3);
         add(baseBox2);
 
+
+
+
         sure_Button.addActionListener(regist);
         cancel_Button.addActionListener(regist);
 
@@ -114,6 +115,25 @@ public class change_password extends JFrame{
         regist.set_sure_Field(Sure_New_Text);
         regist.setokButton(sure_Button);
         regist.setresetButton(cancel_Button);
+
+
+
+
+        // 建立java的图像界面  background放在了label中
+        // 文件的路径
+        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time2.jpg");
+        JLabel logolabel = new JLabel(image);
+
+        logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
+
+        // 设置底层把图片放在最下面的一层
+        getLayeredPane().add(logolabel,new Integer(Integer.MIN_VALUE));
+
+        //设置内容面板  getContentPane前面添加  这个JFrame的对象 由于这个图片是继承了JFrame  所以不需要对象 或者使用this
+        JPanel jp = (JPanel) this.getContentPane();
+
+        //设置内容面板未透明  true是透明  透明的图像在GUI的界面中间是看不到的
+        jp.setOpaque(false);
 
 
         setBounds(200, 200, 400, 300);

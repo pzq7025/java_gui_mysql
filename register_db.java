@@ -142,5 +142,9 @@ public class register_db extends conn_db implements ActionListener{
             JOptionPane.showMessageDialog(null, "register is successful!\n"+ "your id is " + rs.getString(1));
 
         }
+        // 建立关闭数据库的好习惯  防止数据流失
+        stmt.close();
+        con.close();
+        rs.close();
     }
 }

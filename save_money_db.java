@@ -201,7 +201,6 @@ public class save_money_db extends conn_db implements ActionListener {
 //            JOptionPane.showMessageDialog(null, "Info is wrong\n Please check again...");
             return false;
         }
-
     }
     // 这是整个主类的括号
 }

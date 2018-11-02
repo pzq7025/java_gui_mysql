@@ -177,12 +177,12 @@ public class withdrawal_db extends conn_db implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Insufficient Balance\n Please again Cash....");
                 return false;
             }
-
         } else {
             JOptionPane.showMessageDialog(null, "Withdrawaling.............");
             JOptionPane.showMessageDialog(null, "Please check your info1\n Please again......");
             return false;
         }
+
         // 这个是Boolean函数的括号
     }
     // 这个是withdrawal_db的括号

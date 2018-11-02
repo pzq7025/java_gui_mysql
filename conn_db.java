@@ -36,6 +36,7 @@ public class conn_db {
             con = DriverManager.getConnection(url, user, pwd);
             System.out.println("connection is sucessful!");
             // stmt = con.createStatement();
+//            con.close();
         }catch (SQLException e){
             System.out.println("link is fail!");
         }

@@ -30,7 +30,6 @@ public class login extends JFrame{
 //        cpd = new change_pw_db();
 //        qb = new query_db();
 
-
         // 建立JTextField的对象标签
         accountT = new JTextField(10);
         PasswordT = new JPasswordField(20);
@@ -91,8 +90,6 @@ public class login extends JFrame{
          */
 
 
-
-
         /**
          * 在这里将内容传给对应的数据库函数 就可以操作完成一次性输入 直接使用
            这种方式可以一劳永逸  避免了频繁输入账号信息
@@ -106,6 +103,24 @@ public class login extends JFrame{
 
 
 //        cpd.Listern_Button(okB);
+
+
+        // 建立java的图像界面  background放在了label中
+        // 文件的路径
+        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time11.jpg");
+        JLabel logolabel = new JLabel(image);
+
+        logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
+
+
+        // 设置底层把图片放在最下面的一层
+        getLayeredPane().add(logolabel,new Integer(Integer.MIN_VALUE));
+
+        //设置内容面板  getContentPane前面添加  这个JFrame的对象 由于这个图片是继承了JFrame  所以不需要对象 或者使用this
+        JPanel jp = (JPanel) this.getContentPane();
+
+        //设置内容面板未透明   true是透明
+        jp.setOpaque(false);
 
 
         add(baseB2);

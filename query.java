@@ -85,6 +85,23 @@ public class query extends JFrame {
 //        qb.Exit(this.dispose());
 
 
+        // 建立java的图像界面  background放在了label中
+        // 在这里修改文件的路径就可以修改背景的图片
+        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time13.jpg");
+        JLabel logolabel = new JLabel(image);
+
+        logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
+
+        // 设置底层把图片放在最下面的一层
+        getLayeredPane().add(logolabel,new Integer(Integer.MIN_VALUE));
+
+        //设置内容面板  getContentPane前面添加  这个JFrame的对象 由于这个图片是继承了JFrame  所以不需要对象 或者使用this
+        JPanel jp = (JPanel) this.getContentPane();
+
+        //设置内容面板未透明  true是透明
+        jp.setOpaque(false);
+
+
         setBounds(200, 200, 400, 300);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
