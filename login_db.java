@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.net.JarURLConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.*;
@@ -108,22 +109,30 @@ public class login_db extends conn_db implements ActionListener{
         String sql;
         // 建立新的连接
         Connection con = super.con;
-        // 建立SQL执行语句的游标
         Statement stmt = con.createStatement();
-        sql = "select id,password from my WHERE statue = 1";
-        // 执行Result结果的游标
-        rs = stmt.executeQuery(sql);
-        while (rs.next()){
-            String acc = rs.getString(1);
-            String names = rs.getString(2);
+        // 建立SQL执行语句的游标
+        try {
+            sql = "select id,password from my WHERE statue = 1";
+            // 执行Result结果的游标
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String acc = rs.getString(1);
+                String names = rs.getString(2);
 //            String ids_t = rs.getString(3);
-            if(acc.equals(accountT) && names.equals(namesT)){
+                if (acc.equals(accountT) && names.equals(namesT)) {
 //                rt = new save_cust();
 //                System.out.println(ids_t);
-                return true;
+                    return true;
+                }
             }
-
+            return false;
+        } catch (SQLException e){
+            // 捕捉错误  返回false
+            return false;
+        } finally {
+            // 关闭数据库  防止数据流失
+            stmt.close();
+//            con.close();
         }
-        return false;
     }
 }

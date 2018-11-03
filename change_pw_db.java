@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.net.JarURLConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.print.attribute.standard.JobOriginatingUserName;
 import javax.swing.*;
@@ -193,56 +194,65 @@ public class change_pw_db extends conn_db implements ActionListener {
 ////            rs = stmt.executeQuery(sql_);
 ////            return true;
 ////            int rw = stmt.executeUpdate(sql_);
-        rs = stmt.executeQuery(sql1);
-        // 一定要加rs.next()
-        if(rs.next()) {
-            String pss = rs.getString(1);
+        try {
+            rs = stmt.executeQuery(sql1);
+            // 一定要加rs.next()
+            if (rs.next()) {
+                String pss = rs.getString(1);
 
-            // 判断输入的密码是否和原密码相同  确保了不乱改密码的可能
-            if (saves.equals(pss)) {
-                // 判断原密码和新密码是否一致  一致不做任何修改
-                if (saves.equals(new_p)) {
-                    JOptionPane.showMessageDialog(null, "Same as the original password without modification");
-                    New_Password.setText("");
-                    Sure_Password.setText("");
+                // 判断输入的密码是否和原密码相同  确保了不乱改密码的可能
+                if (saves.equals(pss)) {
+                    // 判断原密码和新密码是否一致  一致不做任何修改
+                    if (saves.equals(new_p)) {
+                        JOptionPane.showMessageDialog(null, "Same as the original password without modification");
+                        New_Password.setText("");
+                        Sure_Password.setText("");
 //                    return false;
-                } else {
+                    } else {
 //            rs.next();
-                    // 输入密码和原密码不相同  修改数据库中的原始密码
-                    sql = "update my set password= '" + new_p + "',data=now() where id=" + acc + " AND statue=1";
+                        // 输入密码和原密码不相同  修改数据库中的原始密码
+                        sql = "update my set password= '" + new_p + "',data=now() where id=" + acc + " AND statue=1";
 //            int rw = stmt.executeUpdate(sql.toString());
-                    // 此处使用的是excuteUpdate的语句  该语句必须是一个int类型  详细参考fromat
-                    int rw = stmt.executeUpdate(sql);
+                        // 此处使用的是excuteUpdate的语句  该语句必须是一个int类型  详细参考fromat
+                        int rw = stmt.executeUpdate(sql);
 //            String total = rs.getString(1) + saves;
 //            sql_ = "UPDATE my SET money= " + total + "where id=" + acc;
 //            JOptionPane.showMessageDialog(null, "register is successful!");
 //                    return true;
-                    /**
-                     * 后期的改进在这里做一个标记
-                     */
-                    JOptionPane.showMessageDialog(null, "It's successful....");
-                    // 如果不使用Boolean类型 在这里退出程序
-                    Id.setText("");
-                    Pre_Password.setText("");
-                    New_Password.setText("");
-                    Sure_Password.setText("");
+                        /**
+                         * 后期的改进在这里做一个标记
+                         */
+                        JOptionPane.showMessageDialog(null, "It's successful....");
+                        // 如果不使用Boolean类型 在这里退出程序
+                        Id.setText("");
+                        Pre_Password.setText("");
+                        New_Password.setText("");
+                        Sure_Password.setText("");
 
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Changing Password.........");
+                    JOptionPane.showMessageDialog(null, "please check pre_word!");
+                    // 后期还需要修改  不完全清空 跟具提示清空
+//                return false;
+                    Pre_Password.setText("");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Changing Password.........");
-                JOptionPane.showMessageDialog(null, "please check pre_word!");
-                // 后期还需要修改  不完全清空 跟具提示清空
-//                return false;
+                JOptionPane.showMessageDialog(null, "Changing Password................");
+                JOptionPane.showMessageDialog(null, "user info is error!\n please check user info!");
                 Pre_Password.setText("");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Changing Password................");
-            JOptionPane.showMessageDialog(null, "user info is error!\n please check user info!");
-            Pre_Password.setText("");
-            Sure_Password.setText("");
-            New_Password.setText("");
-            Id.setText("");
+                Sure_Password.setText("");
+                New_Password.setText("");
+                Id.setText("");
 //            return false;
+            }
+        } catch (SQLException e){
+            // 捕捉错误返回原来的状态
+            e.printStackTrace();
+        } finally {
+            // 关闭数据库
+            stmt.close();
+//            con.close();
         }
     }
 }

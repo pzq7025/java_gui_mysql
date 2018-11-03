@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.net.JarURLConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class query_db extends conn_db implements ActionListener{
@@ -135,25 +136,34 @@ public class query_db extends conn_db implements ActionListener{
         Connection con = super.con;
         // 建立SQL的游标对象
         Statement stmt = con.createStatement();
-
-
         sql = "SELECT money,password FROM my WHERE id=" + id + " AND password='" + pw + "'" + " AND statue=1";
-        rs = stmt.executeQuery(sql);
-        // 这里判断用户信息是否正确  只有在正确的情况下才可以  获取到用户的信息  做一个异常的处理判断
-        if(rs.next()){
-        // 在这里判断用户信息是否正确 并给用户返回提示
+        try {
+            rs = stmt.executeQuery(sql);
+            // 这里判断用户信息是否正确  只有在正确的情况下才可以  获取到用户的信息  做一个异常的处理判断
+            if (rs.next()) {
+                // 在这里判断用户信息是否正确 并给用户返回提示
 //        JOptionPane.showMessageDialog(null, "Query is successful!\n" +
 //                rs.getString(1) + '\n' + rs.getString(2) + '\n' + rs.getString(3)
 //        + '\n' + rs.getString(4) + '\n' + rs.getString(5));
-            if (rs.getString(2).equals(pw)) {
-                JOptionPane.showMessageDialog(null, "Querying.........");
-                JOptionPane.showMessageDialog(null, "Query is successful!\n" + "Your balance is:" + rs.getString(1));
+                if (rs.getString(2).equals(pw)) {
+                    JOptionPane.showMessageDialog(null, "Querying.........");
+                    JOptionPane.showMessageDialog(null, "Query is successful!\n" + "Your balance is:" + rs.getString(1));
+                }
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Querying.............");
+                JOptionPane.showMessageDialog(null, "user info is wrong!\n please check user info!", "WARNING", JOptionPane.WARNING_MESSAGE);
+                return false;
             }
-            return true;
-        } else {
-            JOptionPane.showMessageDialog(null, "Querying.............");
-            JOptionPane.showMessageDialog(null, "user info is wrong!\n please check user info!");
+        } catch (SQLException e){
+            // 捕捉错误    返回false  给出错误的提示信息
+            JOptionPane.showMessageDialog(null,"Querying..........");
+            JOptionPane.showMessageDialog(null, "User info is wrong!\n please check user info!", "WARNING", JOptionPane.WARNING_MESSAGE);
             return false;
+        } finally {
+            // 关闭数据库的连接  防止数据的流失
+            stmt.close();
+//            con.close();
         }
     }
 }

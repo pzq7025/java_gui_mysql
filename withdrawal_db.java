@@ -13,6 +13,7 @@ import java.awt.desktop.OpenURIEvent;
 import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class withdrawal_db extends conn_db implements ActionListener {
@@ -46,7 +47,6 @@ public class withdrawal_db extends conn_db implements ActionListener {
                 if(!(key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9)){
                     int su = JOptionPane.showConfirmDialog(null, "please enter Number", "WARNING",JOptionPane.OK_CANCEL_OPTION);
                     if (su == 0){
-
                         Output_Text.setText("");
                     }
                     e.consume();
@@ -155,34 +155,43 @@ public class withdrawal_db extends conn_db implements ActionListener {
 
         // 执行SQL语句
         sql = "SELECT money FROM my WHERE id=" + id + " AND password='" + pw + "'";
-        rs = stmt.executeQuery(sql);
-        // 判断获取的内容是否有效
-        if(rs.next()){
-            double money = rs.getDouble(1);
-            if(money > cash){
-                double remain = money - cash;
-                sql1 = "UPDATE my set money =" +  remain + ",data=now() WHERE id =" + id + " AND password = '" + pw + "'" + " AND statue=1";
-                int rw = stmt.executeUpdate(sql1);
-                if(rw <= 0){
-                    JOptionPane.showMessageDialog(null, "Withdrawaling..........");
-                    JOptionPane.showMessageDialog(null, "Please check your info!\n Please again");
-                    return false;
+        try {
+            rs = stmt.executeQuery(sql);
+            // 判断获取的内容是否有效
+            if (rs.next()) {
+                double money = rs.getDouble(1);
+                if (money > cash) {
+                    double remain = money - cash;
+                    sql1 = "UPDATE my set money =" + remain + ",data=now() WHERE id =" + id + " AND password = '" + pw + "'" + " AND statue=1";
+                    int rw = stmt.executeUpdate(sql1);
+                    if (rw <= 0) {
+                        JOptionPane.showMessageDialog(null, "Withdrawaling..........");
+                        JOptionPane.showMessageDialog(null, "Please check your info!\n Please again");
+                        return false;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Withdrawaling.............");
+                        JOptionPane.showMessageDialog(null, "It's Successful!");
+                        return true;
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Withdrawaling.............");
-                    JOptionPane.showMessageDialog(null, "It's Successful!");
+                    JOptionPane.showMessageDialog(null, "Insufficient Balance\n Please again Cash....");
+                    // 由于只是金额错误  所以不需要重置信息错误只需要重置金额  所以采取了返回true的决定
                     return true;
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Withdrawaling.............");
-                JOptionPane.showMessageDialog(null, "Insufficient Balance\n Please again Cash....");
+                JOptionPane.showMessageDialog(null, "Please check your info1\n Please again......");
                 return false;
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Withdrawaling.............");
-            JOptionPane.showMessageDialog(null, "Please check your info1\n Please again......");
+        } catch (SQLException e){
+            // 捕捉错误返回原来的状态
             return false;
+        } finally {
+            // 关闭数据库的连接
+            stmt.close();
+//            con.close();
         }
-
         // 这个是Boolean函数的括号
     }
     // 这个是withdrawal_db的括号

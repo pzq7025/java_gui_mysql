@@ -15,6 +15,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.io.*;
 
@@ -51,11 +52,13 @@ public class save_money_db extends conn_db implements ActionListener {
             public void keyTyped(KeyEvent e) {
                 char key = e.getKeyChar();
                 if(!(key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9)){
-                    int su = JOptionPane.showConfirmDialog(null, "Please enter number", "WARNING", JOptionPane.OK_CANCEL_OPTION);
-                    if(su == 0){
-                        Input_Text.setText("");
+//                    if(!(key == KeyEvent.VK_CANCEL)) {
+                        int su = JOptionPane.showConfirmDialog(null, "Please enter number", "WARNING", JOptionPane.OK_CANCEL_OPTION);
+                        if (su == 0) {
+                            Input_Text.setText("");
+//                        }
+                        e.consume();
                     }
-                    e.consume();
                 }
             }
         });
@@ -179,27 +182,36 @@ public class save_money_db extends conn_db implements ActionListener {
         // 建立执行SQL语句的游标
         Statement stmt = con.createStatement();
 
-        // 执行SQL语句
-        sql = "SELECT money FROM my WHERE id=" + id + " AND password='" + pw + "'";
-        rs = stmt.executeQuery(sql);
+        try {
+            // 执行SQL语句
+            sql = "SELECT money FROM my WHERE id=" + id + " AND password='" + pw + "'";
+            rs = stmt.executeQuery(sql);
 
-        // 判断获取的内容是否有效
-        // 必须要有rs.next() 才可以rs.getString()  这样获取的内容才能有效
-        if(rs.next()){
-            double money = rs.getDouble(1);
-            double total = money + cash;
-            sql1 = "UPDATE my set money =" +  total + ",data=now() WHERE id =" + id + " AND password = '" + pw + "'" + " AND statue=1";
-            int rw = stmt.executeUpdate(sql1);
-            if (rw <= 0){
+            // 判断获取的内容是否有效
+            // 必须要有rs.next() 才可以rs.getString()  这样获取的内容才能有效
+            if (rs.next()) {
+                double money = rs.getDouble(1);
+                double total = money + cash;
+                sql1 = "UPDATE my set money =" + total + ",data=now() WHERE id =" + id + " AND password = '" + pw + "'" + " AND statue=1";
+                int rw = stmt.executeUpdate(sql1);
+                if (rw <= 0) {
 //                JOptionPane.showMessageDialog(null, "Info is wrong\n Please check again...");
-                return false;
-            } else {
+                    return false;
+                } else {
 //                JOptionPane.showMessageDialog(null, "It's successful!");
-                return true;
-            }
-        } else {
+                    return true;
+                }
+            } else {
 //            JOptionPane.showMessageDialog(null, "Info is wrong\n Please check again...");
+                return false;
+            }
+        } catch (SQLException e){
+            // 捕捉错误返回false
             return false;
+        } finally {
+            // 关闭数据库的连接  防止数据流失
+            stmt.close();
+//            con.close();
         }
     }
     // 这是整个主类的括号

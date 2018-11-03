@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.net.JarURLConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.*;
@@ -129,22 +130,29 @@ public class register_db extends conn_db implements ActionListener{
 //        String whereClause = "";
 //        whereClause += " sex = '" + forSQL(acc) + "' ";
 //        System.out.println(sql1);
-        int rw = stmt.executeUpdate(sql);
-        rs = stmt.executeQuery(sql1);
-        if(rw<=0 ){
-            JOptionPane.showMessageDialog(null, "Creating...........");
-            JOptionPane.showMessageDialog(null, "register is fail!");
-        }
-        else{
-            rs.next();
+        try {
+            int rw = stmt.executeUpdate(sql);
+            rs = stmt.executeQuery(sql1);
+            if (rw <= 0) {
+                JOptionPane.showMessageDialog(null, "Creating...........");
+                JOptionPane.showMessageDialog(null, "register is fail!");
+            } else {
+                rs.next();
 //            rs = stmt.executeQuery(sql1);
-            JOptionPane.showMessageDialog(null, "Creating..........");
-            JOptionPane.showMessageDialog(null, "register is successful!\n"+ "your id is " + rs.getString(1));
+                JOptionPane.showMessageDialog(null, "Creating..........");
+                JOptionPane.showMessageDialog(null, "register is successful!\n" + "your id is " + rs.getString(1));
 
+            }
+        } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Creating...........");
+            JOptionPane.showMessageDialog(null, "register is fail!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            // 有返回值的返回false  没有的不做任何事情
+            e.printStackTrace();
+        } finally {
+            // 建立关闭数据库的好习惯  防止数据流失
+            stmt.close();
+            con.close();
+            rs.close();
         }
-        // 建立关闭数据库的好习惯  防止数据流失
-        stmt.close();
-        con.close();
-        rs.close();
     }
 }

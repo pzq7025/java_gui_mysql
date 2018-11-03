@@ -117,23 +117,33 @@ public class logoff_db extends conn_db implements ActionListener {
 
         // SQL语句的书写
         sql = "SELECT password FROM my WHERE id=" + id + " AND password='" + pw + "'" + " AND statue=1";
-        rs = stmt.executeQuery(sql);
-        /**
-         * 通过excuteQuery来判断rs是否正确
-         * 如果正确就继续往下做
-         */
-        if(rs.next()){
-            if(rs.getString(1).equals(pw)){
-                JOptionPane.showMessageDialog(null, "Deleting........");
-                sql1 = "update my set statue=0,data=now() where id=" + id + " AND password='" + pw + "'";
-                int rw = stmt.executeUpdate(sql1);
+        try {
+            rs = stmt.executeQuery(sql);
+            /**
+             * 通过excuteQuery来判断rs是否正确
+             * 如果正确就继续往下做
+             */
+            if (rs.next()) {
+                if (rs.getString(1).equals(pw)) {
+                    JOptionPane.showMessageDialog(null, "Deleting........");
+                    sql1 = "update my set statue=0,data=now() where id=" + id + " AND password='" + pw + "'";
+                    int rw = stmt.executeUpdate(sql1);
 //                return true;
-            }
-            return true;
-        } else {
-            JOptionPane.showMessageDialog(null, "Deleting.......");
+                }
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Deleting.......");
 //            JOptionPane.showMessageDialog(null, "user information is wrong!\n Please again!");
+                return false;
+            }
+        } catch (SQLException e){
+            // 捕捉错误  返回false
+            JOptionPane.showMessageDialog(null, "Deleting.......");
             return false;
+        } finally {
+            // 关闭数据库的连接   防止数据流失
+            stmt.close();
+//            con.close();
         }
     }
 }
