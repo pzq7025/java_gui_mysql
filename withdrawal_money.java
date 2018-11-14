@@ -97,7 +97,7 @@ public class withdrawal_money extends JFrame {
 
         // 建立java的图像界面  background放在了label中
         // 在这里修改文件名字  就可以修改背景图像
-        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time16.jpg");
+        ImageIcon image=new ImageIcon("src\\signer\\time16.jpg");
         JLabel logolabel = new JLabel(image);
 
         logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
@@ -115,6 +115,8 @@ public class withdrawal_money extends JFrame {
 
         // 设置窗口的大小
         setBounds(200, 200, 400, 300);
+        // 不可修改窗体
+        setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("WITHDRAWAL_MONEY");

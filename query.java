@@ -6,9 +6,8 @@ package signer;
  * 连接GUI界面 和 query_db 数据库的查询以及连接工作
  */
 
-import javax.swing.JFrame;
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 public class query extends JFrame {
     JLabel Id_Label, PassWord_Label;
@@ -87,7 +86,7 @@ public class query extends JFrame {
 
         // 建立java的图像界面  background放在了label中
         // 在这里修改文件的路径就可以修改背景的图片
-        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time13.jpg");
+        ImageIcon image=new ImageIcon("src\\signer\\time13.jpg");
         JLabel logolabel = new JLabel(image);
 
         logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
@@ -103,6 +102,8 @@ public class query extends JFrame {
 
 
         setBounds(200, 200, 400, 300);
+        // 不可修改窗体大小
+        setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("QUERY");

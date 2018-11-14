@@ -8,9 +8,8 @@ package signer;
  */
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.desktop.OpenURIEvent;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,20 +38,20 @@ public class withdrawal_db extends conn_db implements ActionListener {
     public void Set_User_Output(JTextField op){
         Output_Text = op;
         // 注册监听键盘事件监听器
-        Output_Text.addKeyListener(new KeyAdapter() {
-            // 处理键盘事件
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char key = e.getKeyChar();
-                if(!(key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9)){
-                    int su = JOptionPane.showConfirmDialog(null, "please enter Number", "WARNING",JOptionPane.OK_CANCEL_OPTION);
-                    if (su == 0){
-                        Output_Text.setText("");
-                    }
-                    e.consume();
-                }
-            }
-        });
+//        Output_Text.addKeyListener(new KeyAdapter() {
+//            // 处理键盘事件
+//            @Override
+//            public void keyTyped(KeyEvent e) {
+//                char key = e.getKeyChar();
+//                if(!(key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9)){
+//                    int su = JOptionPane.showConfirmDialog(null, "please enter Number", "WARNING",JOptionPane.OK_CANCEL_OPTION);
+//                    if (su == 0){
+//                        Output_Text.setText("");
+//                    }
+//                    e.consume();
+//                }
+//            }
+//        });
     }
 
     // 获取Ok_Button的响应
@@ -83,41 +82,47 @@ public class withdrawal_db extends conn_db implements ActionListener {
             } else if(Output_Text.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please Cash", "WARNING", JOptionPane.WARNING_MESSAGE);
             } else {
-                // 将获取的内容做对应的转化 传入数据库的操作中
-                String id = Id_Text.getText();
-                String pw = Pw_Text.getText();
-                double cash = Double.parseDouble(Output_Text.getText());
-                // 先获取字段内容
-                // 在进行是否要取钱操作
-                // 0代表继续 2代表取消
-                int ju = JOptionPane.showConfirmDialog(null, "Do you want to withdraw money", "Tip", JOptionPane.OK_CANCEL_OPTION);
-                if (ju == 0) {
-                    if (cash >= 0) {
-                        try {
-                            // 连接数据库
-                            connection();
-                            boolean com = withdrawal(id, pw, cash);
-                            if (com) {
-                                // 正确了就将取款金额重置
-                                Output_Text.setText("");
-                            } else {
-                                // 错误了 重置不可见的密码
+                // 加个try 进行判断
+                try{
+                    // 将获取的内容做对应的转化 传入数据库的操作中
+                    String id = Id_Text.getText();
+                    String pw = Pw_Text.getText();
+                    double cash = Double.parseDouble(Output_Text.getText());
+                    // 先获取字段内容
+                    // 在进行是否要取钱操作
+                    // 0代表继续 2代表取消
+                    int ju = JOptionPane.showConfirmDialog(null, "Do you want to withdraw money", "Tip", JOptionPane.OK_CANCEL_OPTION);
+                    if (ju == 0) {
+                        if (cash >= 0) {
+                            try {
+                                // 连接数据库
+                                connection();
+                                boolean com = withdrawal(id, pw, cash);
+                                if (com) {
+                                    // 正确了就将取款金额重置
+                                    Output_Text.setText("");
+                                } else {
+                                    // 错误了 重置不可见的密码
 //                            Output_Text.setText("");
-                                Pw_Text.setText("");
+                                    Pw_Text.setText("");
+                                    Id_Text.setText("");
+                                }
+                                // 进行错误的捕捉 错误的捕捉在Boolean函数中会提示这里只完成重置的功能
+                            } catch (Exception e1) {
                                 Id_Text.setText("");
+                                Pw_Text.setText("");
+                                Output_Text.setText("");
+                                e1.printStackTrace();
                             }
-                            // 进行错误的捕捉 错误的捕捉在Boolean函数中会提示这里只完成重置的功能
-                        } catch (Exception e1) {
-                            Id_Text.setText("");
-                            Pw_Text.setText("");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Please again cash....");
                             Output_Text.setText("");
-                            e1.printStackTrace();
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Please again cash....");
-                        Output_Text.setText("");
+                        // 这是判断确认继续withdraw money的括号
                     }
-                // 这是判断确认继续withdraw money的括号
+                } catch (Exception e1){
+                    JOptionPane.showMessageDialog(null, "Cash is wrong!\n please again", "WARNING", JOptionPane.WARNING_MESSAGE);
+                    Output_Text.setText("");
                 }
             // 这是判断字段不为空的括号
             }

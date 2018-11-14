@@ -7,10 +7,8 @@ package signer;
  * 同时注册信息在这里实现注册 登录GUi界面实现退出的功能
  */
 
-import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
-import javax.swing.JFrame;
 import javax.swing.*;
+import java.awt.*;
 
 public class login extends JFrame{
     JTextField accountT, PasswordT;                // id和密码的文本框
@@ -107,7 +105,7 @@ public class login extends JFrame{
 
         // 建立java的图像界面  background放在了label中
         // 文件的路径
-        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time11.jpg");
+        ImageIcon image=new ImageIcon("src\\signer\\time11.jpg");
         JLabel logolabel = new JLabel(image);
 
         logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
@@ -126,6 +124,8 @@ public class login extends JFrame{
         add(baseB2);
         setLayout(new FlowLayout());
         setBounds(200, 150, 500, 300);
+        // 不可修改窗体
+        setResizable(false);
         setVisible(true);
         setTitle("Custom Login UI");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

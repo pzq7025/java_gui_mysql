@@ -106,7 +106,7 @@ public class logoff extends JFrame{
 
         // 建立java的图像界面  background放在了label中
         // 这里修改文件的路径
-        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time12.jpg");
+        ImageIcon image=new ImageIcon("src\\signer\\time12.jpg");
         JLabel logolabel = new JLabel(image);
 
         logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
@@ -126,6 +126,8 @@ public class logoff extends JFrame{
          * 建立框架大小
          */
         setBounds(200, 200, 400, 300);
+        // 不可修改窗体
+        setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("LOGOFF");

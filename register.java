@@ -7,10 +7,8 @@ package signer;
  * login调用register这个类  在通过这个类调用register_db 完成对数据库的操作
  */
 
-import javax.swing.JFrame;
-import java.awt.FlowLayout;
-import java.net.JarURLConnection;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * 继承与java的Frame框架 构建出gui的操作界面
@@ -99,7 +97,7 @@ public class register extends JFrame{
 
         // 建立java的图像界面  background放在了label中
         // 在这里修改文件的名字就可以修改背景的图片
-        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time14.jpg");
+        ImageIcon image=new ImageIcon("src\\signer\\time14.jpg");
         JLabel logolabel = new JLabel(image);
 
         logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
@@ -115,6 +113,8 @@ public class register extends JFrame{
         jp.setOpaque(false);
 
         setBounds(200, 200, 500, 300);
+        // 不可修改窗体
+        setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("use register UI");

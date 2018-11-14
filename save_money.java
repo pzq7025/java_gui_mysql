@@ -103,7 +103,7 @@ public class save_money extends JFrame {
 
         // 建立java的图像界面  background放在了label中
         // 这个是图片的路径  在这里修改图片的路径  就可以修改背景的图片
-        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time15.jpg");
+        ImageIcon image=new ImageIcon("src\\signer\\time15.jpg");
         JLabel logolabel = new JLabel(image);
 
         logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
@@ -119,6 +119,8 @@ public class save_money extends JFrame {
 
         // 设置窗口的大小以及窗口的位置
         setBounds(200, 200, 400, 300);
+        // 不可修改窗体
+        setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("SAVE_MONEY");

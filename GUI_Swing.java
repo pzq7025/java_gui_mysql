@@ -9,8 +9,10 @@ package signer;
  */
 
 import javax.swing.*;
+import java.applet.AudioClip;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 public class GUI_Swing implements ActionListener {
     JButton Change_Pass, Save_Money, WithDrawal_Money, Exit, Query, Logoff, Last;
@@ -75,7 +77,18 @@ public class GUI_Swing implements ActionListener {
         gui = j1;
     }
 
-    
+
+
+//    public void playMusic()
+//    {
+//        AudioClip ac;
+//        ac = new AudioClip(new File("src\\com\\xust\\util\\hot.wav").toURI().toString());
+//        ac.play();   //开始播放
+//        //ac.setCycleCount(1000);  //设置循环次数
+//    }
+
+
+
     /**
      * 通过响应按钮调用各类功能的函数
      * @param e  ActionEvent的对象实例

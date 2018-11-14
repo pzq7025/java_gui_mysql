@@ -7,12 +7,8 @@ package signer;
  * 通过GUI的响应传到change_password在传到change_pw_db类中
  */
 
-import javax.swing.JFrame;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.JarURLConnection;
 import javax.swing.*;
+import java.awt.*;
 /**
  * java的swing采取的是拼接的方式
  * 通过对box的操作
@@ -120,8 +116,8 @@ public class change_password extends JFrame{
 
 
         // 建立java的图像界面  background放在了label中
-        // 文件的路径
-        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time2.jpg");
+        // 文件的路径  src就可以访问到
+        ImageIcon image=new ImageIcon("src\\signer\\time2.jpg");
         JLabel logolabel = new JLabel(image);
 
         logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
@@ -137,6 +133,8 @@ public class change_password extends JFrame{
 
 
         setBounds(200, 200, 400, 300);
+        // 不可修改窗体
+        setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("CHANGE_PASSWORD");

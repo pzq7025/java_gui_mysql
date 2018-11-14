@@ -7,12 +7,8 @@ package signer;
  * 增加功能的内容也是在GUi和Gui.swing 这两个类中来添加
  */
 
-import javax.swing.JFrame;
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.event.AncestorListener;
-import java.awt.event.ActionListener;
-import java.net.JarURLConnection;
+import java.awt.*;
 
 public class GUI extends JFrame {
     JButton Change_Pass, Save_Money, WithDraw_Money, Exit, Query, Logoff, Next, Last;
@@ -194,7 +190,8 @@ public class GUI extends JFrame {
 
         // 建立java的图像界面  background放在了label中
         // 文件的路径
-        ImageIcon image=new ImageIcon("F:\\exploitation\\codes\\java_codes_project\\new_project\\src\\signer\\time6.jpg");
+        // 当文件路径带上src的时候就可以获取本地的文件
+        ImageIcon image=new ImageIcon("src\\signer\\time6.jpg");
         JLabel logolabel = new JLabel(image);
 
         logolabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
@@ -212,6 +209,8 @@ public class GUI extends JFrame {
 
         setBounds(200, 200, 500, 400);
         getContentPane().setBackground(Color.gray);
+        // 不可以修改窗体大小
+        setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("MENU");

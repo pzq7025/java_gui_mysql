@@ -8,16 +8,12 @@ package signer;
  */
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.io.*;
 
 /**设置监听  监听save_money传来的参数
  * 通过public void actionPerformed来监听响应
@@ -47,21 +43,21 @@ public class save_money_db extends conn_db implements ActionListener {
     public void Set_Input_Text(JTextField input){
         Input_Text = input;
         // 注册键盘事件监听器
-        Input_Text.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char key = e.getKeyChar();
-                if(!(key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9)){
-//                    if(!(key == KeyEvent.VK_CANCEL)) {
-                        int su = JOptionPane.showConfirmDialog(null, "Please enter number", "WARNING", JOptionPane.OK_CANCEL_OPTION);
-                        if (su == 0) {
-                            Input_Text.setText("");
-//                        }
-                        e.consume();
-                    }
-                }
-            }
-        });
+//        Input_Text.addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyTyped(KeyEvent e) {
+//                char key = e.getKeyChar();
+//                if(!(key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9)){
+////                    if(!(key == KeyEvent.VK_CANCEL)) {
+//                        int su = JOptionPane.showConfirmDialog(null, "Please enter number", "WARNING", JOptionPane.OK_CANCEL_OPTION);
+//                        if (su == 0) {
+//                            Input_Text.setText("");
+////                        }
+//                        e.consume();
+//                    }
+//                }
+//            }
+//        });
     }
 
     // 设置Ok的响应
@@ -93,55 +89,57 @@ public class save_money_db extends conn_db implements ActionListener {
             } else if(Input_Text.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please enter Cash!", "WARNING", JOptionPane.WARNING_MESSAGE);
             } else {
-                String id = Id_Text.getText();
-                String pw = Pw_Text.getText();
-                double cash = Double.parseDouble(Input_Text.getText());
-                // 先获取字段内容
-                // 判断是否继续进行存钱的操作
-                // 0继续  2取消
+                // 加个try  进行判断
+                try {
+                    String id = Id_Text.getText();
+                    String pw = Pw_Text.getText();
+                    double cash = Double.parseDouble(Input_Text.getText());
+                    // 先获取字段内容
+                    // 判断是否继续进行存钱的操作
+                    // 0继续  2取消
 //                try {
-                int ju = JOptionPane.showConfirmDialog(null, "Do you want to save money", "Tip", JOptionPane.OK_CANCEL_OPTION);
-                if (ju == 0) {
+                    int ju = JOptionPane.showConfirmDialog(null, "Do you want to save money", "Tip", JOptionPane.OK_CANCEL_OPTION);
+                    if (ju == 0) {
 //                    if(cash.Class){
 //                        JOptionPane.showMessageDialog(null, "please Inter", "WARNING", JOptionPane.WARNING_MESSAGE);
 //                        Input_Text.setText("");
 //                    // 判断cash是否是数字
 //                    } else {
-                    // 还有一个输入字母的bug
-                    if (cash >= 0) {
-                        try {
-                            connection();
-                            // 设置Boolean来确定值是否可以使用
-                            charge(id, pw, cash);
-                            boolean com = charge(id, pw, cash);
-                            if (com) {
-                                JOptionPane.showMessageDialog(null, "Charging.............");
-                                JOptionPane.showMessageDialog(null, "Charge is successful.......");
-                                Input_Text.setText("");
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Charging...............");
-                                JOptionPane.showMessageDialog(null, "Charge is fail!\n" + "Please check info....");
+                        // 还有一个输入字母的bug
+                        if (cash >= 0) {
+                            try {
+                                connection();
+                                // 设置Boolean来确定值是否可以使用
+                                charge(id, pw, cash);
+                                boolean com = charge(id, pw, cash);
+                                if (com) {
+                                    JOptionPane.showMessageDialog(null, "Charging.............");
+                                    JOptionPane.showMessageDialog(null, "Charge is successful.......");
+                                    Input_Text.setText("");
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Charging...............");
+                                    JOptionPane.showMessageDialog(null, "Charge is fail!\n" + "Please check info....");
+                                    Id_Text.setText("");
+                                    Pw_Text.setText("");
+                                }
+
+                                // 异常的捕捉
+                            } catch (Exception e1) {
+                                JOptionPane.showMessageDialog(null, "Recharge failed!\n Please again.....");
                                 Id_Text.setText("");
                                 Pw_Text.setText("");
+                                Input_Text.setText("");
+                                e1.printStackTrace();
                             }
-
-                            // 异常的捕捉
-                        } catch (Exception e1) {
-                            JOptionPane.showMessageDialog(null, "Recharge failed!\n Please again.....");
-                            Id_Text.setText("");
-                            Pw_Text.setText("");
+                            // 判断金额大于0之后的else
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Cash enter is error! Please again Cash......");
                             Input_Text.setText("");
-                            e1.printStackTrace();
                         }
-                        // 判断金额大于0之后的else
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Cash enter is error! Please again Cash......");
-                        Input_Text.setText("");
-                    }
-                    // 判断Input不是字符后 继续执行的括号
+                        // 判断Input不是字符后 继续执行的括号
 //                    }
-                    // 这个是ju判断的括号  判断是否继续进行操作
-                }
+                        // 这个是ju判断的括号  判断是否继续进行操作
+                    }
 //                } catch (NumberFormatException e1){
 //                    System.out.println("klkjlk");
 //                    e1.getStackTrace();
@@ -149,6 +147,10 @@ public class save_money_db extends conn_db implements ActionListener {
 //                    throw new IOException();
 //                throw new
 //                }
+                } catch (Exception e1){
+                    JOptionPane.showMessageDialog(null, "Cash is wrong!\nPlease again", "WARNING", JOptionPane.WARNING_MESSAGE);
+                    Input_Text.setText("");
+                }
             // 这个是else的括号 判断字段不为空之后的一个条件语句
             }
         //  else if 是判断Cancel_Button按钮的
